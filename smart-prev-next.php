@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Smart Prev Next Buttons
+Plugin Name: Smart Prev Next
 Version: 0.5
 Plugin URI: http://toolstack.com/smart-prev-next
 Author: Greg Ross

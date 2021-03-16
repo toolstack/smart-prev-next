@@ -3,7 +3,9 @@ Contributors: GregRoss
 Plugin URI: http://toolstack.com/smart-prev-next
 Author URI: http://toolstack.com
 Tags: admin editor prev next
+Requires at least: 3.5
 Tested up to: 5.7
+Requires PHP: 7.0
 Stable tag: 0.5
 License: GPLv2
 
@@ -42,6 +44,9 @@ No, if you have another plugin that adds columns or features to the page/post li
 = 0.5 =
 * Release date: March 15, 2021
 * Initial release.
+
+== Upgrade Notice == 
+None at this time.
 
 == Roadmap ==
 
