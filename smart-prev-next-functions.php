@@ -104,12 +104,17 @@ function SmartPrevNextBuildParams()
 	// Get the order from the url if it exists.
 	if( array_key_exists( 'order', $_REQUEST ) && $_REQUEST['order'] !== '' )
 		{
+		$ordertypes = array( 'asc', 'desc' );
+
 		// Make sure we have a valid order type.
 		$order = strtolower( $_REQUEST['order'] );
 
-		if( $order === 'asc' || $order === 'desc' )
+		foreach( $ordertypes as $type )
 			{
-			$options['order'] = $order;
+			if( $type === $order )
+				{
+				$options['order'] = $type;
+				}
 			}
 		}
 
