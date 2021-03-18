@@ -67,7 +67,7 @@ function SmartPrevNextBuildParams()
 	if( array_key_exists( 's' , $_REQUEST ) && $_REQUEST['s'] !== '' )
 		{
 		// Note: as the search string is any arbitrary text, there is no way to validate beyond that it exists.
-		$options['s'] = $_REQUEST['s'];
+		$options['s'] = sanitize_text_field( $_REQUEST['s'] );
 		}
 
 	// Get the display month from the url if it exists.
