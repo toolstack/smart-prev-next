@@ -31,7 +31,7 @@ function SmartPrevNextBuildParams()
 		foreach( $cats as $category )
 			{
 			if( $category->name === $_REQUEST['category_name'] )
-				$options['category_name'] = $_REQUEST['category_name'];
+				$options['category_name'] = $category->name;
 
 				break;
 			}
@@ -46,7 +46,7 @@ function SmartPrevNextBuildParams()
 		foreach( $tags as $tag )
 			{
 			if( $tag->name === $_REQUEST['tag'] )
-				$options['tag'] = $_REQUEST['tag'];
+				$options['tag'] = $tag->name;
 			}
 		}
 
@@ -59,7 +59,7 @@ function SmartPrevNextBuildParams()
 		foreach( $post_types as $post_type )
 			{
 			if( $post_type === $_REQUEST['post_type'] )
-				$options['post_type'] = $_REQUEST['post_type'];
+				$options['post_type'] = $post_type;
 			}
 		}
 
@@ -81,7 +81,7 @@ function SmartPrevNextBuildParams()
 
 			if( $year != 0 && ( $month >0 && $month < 13 ) )
 				{
-				$options['m'] = $_REQUEST['m'];
+				$options['m'] = sprintf( '%04d%02d', $year, $month );
 				}
 			}
 		}
@@ -92,9 +92,12 @@ function SmartPrevNextBuildParams()
 		// Make sure we have a valid orderby type.
 		$orderbytypes = array( 'none', 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'rand', 'comment_count', 'relevance', 'menu_order', 'meta_value', 'meta_value_num', 'post__in', 'post_name__in', 'post_parent__in' );
 
-		if( in_array( $_REQUEST['orderby'], $orderbytypes, true ) )
-			{
-			$options['orderby'] = $_REQUEST['orderby'];
+		foreach( $orderbytypes as $type )
+		{
+			if( $type === $_REQUEST['orderby'] )
+				{
+				$options['orderby'] = $type;
+				}
 			}
 		}
 
@@ -124,7 +127,15 @@ function SmartPrevNextBuildParams()
 							&& in_array( $_REQUEST['post_status'], $avail_post_stati, true )
 						)
 		{
-		$options['post_status'] = $_REQUEST['post_status'];
+		$poststatuslist = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
+
+		foreach( $poststatuslist as $status )
+			{
+			if( $status === $_REQUEST['post_status'] )
+				{
+				$options['post_status'] = $status;
+				}
+			}
 		}
 
 	return $options;
