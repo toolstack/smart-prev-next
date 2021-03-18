@@ -29,5 +29,5 @@ No, if you have another plugin that adds columns or features to the page/post li
 
 ## Screenshots ##
 
-1. ![Gutenberg Editor](https://github.com/toolstack/smart-prev-next/raw/main/assets/screenshot-1.jpg)
-2. ![Classic Editor](https://github.com/toolstack/smart-prev-next/raw/main/assets/screenshot-2.jpg)
+1. ![Gutenberg Editor](https://github.com/toolstack/smart-prev-next/raw/main/assets/screenshot-1.png)
+2. ![Classic Editor](https://github.com/toolstack/smart-prev-next/raw/main/assets/screenshot-2.png)
