@@ -45,7 +45,7 @@ No, if you have another plugin that adds columns or features to the page/post li
 * Release date: March 15, 2021
 * Initial release.
 
-== Upgrade Notice == 
+== Upgrade Notice ==
 None at this time.
 
 == Roadmap ==
