@@ -210,10 +210,7 @@ function SmartPrevNextRunWPQuery()
 		$options = array( 'post_status' => array( 'pending', 'draft', 'future', 'publish', 'private' ) );
 		}
 
-	// Run the WP_Query to get the posts list.
-	$query = new WP_Query( $options );
-
-	// Create the parameters string for use later.
+	// Create the parameters string for use later, do this before URL decoding the search string.
 	$params = '';
 
 	if( sizeof( $options ) > 0 )
@@ -221,6 +218,15 @@ function SmartPrevNextRunWPQuery()
 		// Convert the options in to a URL parameter list for later.
 		$params = '&amp;' . http_build_query( $options, '', '&amp;' );
 		}
+
+	// Since the search string is URL encode when we receive it from SmartPrevNextBuildParams(), decode it before passing it to WP_Query().
+	if( array_key_exists( 's', $options ) )
+		{
+		$options['s']  = urldecode( $options['s'] );
+		}
+
+	// Run the WP_Query to get the posts list.
+	$query = new WP_Query( $options );
 
 	return array( $query, $params );
 	}
