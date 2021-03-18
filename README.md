@@ -23,7 +23,7 @@ This code is released under the GPL v2, see license.txt for details.
 
 ## Frequently Asked Questions ##
 
-# Are other sort features added by other plugins supported? #
+### Are other sort features added by other plugins supported? ###
 
 No, if you have another plugin that adds columns or features to the page/post list, including custom sort orders, they are not used as part of this plugin.
 
