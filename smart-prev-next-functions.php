@@ -16,19 +16,116 @@ function SmartPrevNextBuildParams()
 	{
 	$options = array();
 
-	if( array_key_exists( 'cat', $_REQUEST ) && $_REQUEST['cat'] !== '' && $_REQUEST['cat'] != '0' ) { $options['cat'] = $_REQUEST['cat']; }
-	if( array_key_exists( 'category_name', $_REQUEST ) && $_REQUEST['category_name'] !== '' && $_REQUEST['category_name'] != '' ) { $options['category_name'] = $_REQUEST['category_name']; }
-	if( array_key_exists( 'tag', $_REQUEST ) && $_REQUEST['tag'] !== '' && $_REQUEST['tag'] != '' ) { $options['tag'] = $_REQUEST['tag']; }
-	if( array_key_exists( 'post_type', $_REQUEST ) && $_REQUEST['post_type'] !== '' ) { $options['post_type'] = $_REQUEST['post_type']; }
-	if( array_key_exists( 's' , $_REQUEST ) && $_REQUEST['s'] !== '' ) { $options['s'] = $_REQUEST['s']; }
-	if( array_key_exists( 'm', $_REQUEST ) && $_REQUEST['m'] !== '' ) { $options['m'] = $_REQUEST['m']; }
-	if( array_key_exists( 'orderby', $_REQUEST ) && $_REQUEST['orderby'] !== '' ) { $options['orderby'] = $_REQUEST['orderby']; }
-	if( array_key_exists( 'order', $_REQUEST ) && $_REQUEST['order'] !== '' ) { $options['order'] = $_REQUEST['order']; }
-	if( array_key_exists( 'author', $_REQUEST ) && $_REQUEST['author'] !== '' ) { $options['author'] = $_REQUEST['author']; }
-	if( array_key_exists( 'post_type', $_REQUEST ) && $_REQUEST['post_type'] !== '' ) { $options['post_type'] = $_REQUEST['post_type']; }
+	// Get the category from the url if it exists and make sure it's an integer
+	if( array_key_exists( 'cat', $_REQUEST ) && intval( $_REQUEST['cat'] ) > '0' )
+		{
+		$options['cat'] = intval( $_REQUEST['cat'] );
+		}
+
+	// Get the category name from the url if it exists.
+	if( array_key_exists( 'category_name', $_REQUEST ) && $_REQUEST['category_name'] !== '' && $_REQUEST['category_name'] != '' )
+		{
+		// Make sure its a valid category.
+		$categories = get_categories();
+
+		foreach( $cats as $category )
+			{
+			if( $category->name === $_REQUEST['category_name'] )
+				$options['category_name'] = $_REQUEST['category_name'];
+
+				break;
+			}
+		}
+
+	// Get the tag name from the url if it exists.
+	if( array_key_exists( 'tag', $_REQUEST ) && $_REQUEST['tag'] !== '' && $_REQUEST['tag'] != '' )
+		{
+		// Make sure its a valid tag.
+		$tags = get_tags();
+
+		foreach( $tags as $tag )
+			{
+			if( $tag->name === $_REQUEST['tag'] )
+				$options['tag'] = $_REQUEST['tag'];
+			}
+		}
+
+	// Get the post type from the url if it exists.
+	if( array_key_exists( 'post_type', $_REQUEST ) && $_REQUEST['post_type'] !== '' )
+		{
+		// Make sure its a valid tag.
+		$post_types = get_post_types();
+
+		foreach( $post_types as $post_type )
+			{
+			if( $post_type === $_REQUEST['post_type'] )
+				$options['post_type'] = $_REQUEST['post_type'];
+			}
+		}
+
+	// Get the search string from the url if it exists.
+	if( array_key_exists( 's' , $_REQUEST ) && $_REQUEST['s'] !== '' )
+		{
+		// Note: as the search string is any arbitrary text, there is no way to validate beyond that it exists.
+		$options['s'] = $_REQUEST['s'];
+		}
+
+	// Get the display month from the url if it exists.
+	if( array_key_exists( 'm', $_REQUEST ) && $_REQUEST['m'] !== '' )
+		{
+		// Validate we have a properly formed YYYYMM string.
+		if( strlen( $_REQUEST['m'] ) === 6 )
+			{
+			$year = intval( substr( $_REQUEST['m'], 0, 4 ) );
+			$month = intval( substr( $_REQUEST['m'], -2, 2 ) );
+
+			if( $year != 0 && ( $month >0 && $month < 13 ) )
+				{
+				$options['m'] = $_REQUEST['m'];
+				}
+			}
+		}
+
+	// Get the order by from the url if it exists.
+	if( array_key_exists( 'orderby', $_REQUEST ) && $_REQUEST['orderby'] !== '' )
+		{
+		// Make sure we have a valid orderby type.
+		$orderbytypes = array( 'none', 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'rand', 'comment_count', 'relevance', 'menu_order', 'meta_value', 'meta_value_num', 'post__in', 'post_name__in', 'post_parent__in' );
+
+		if( in_array( $_REQUEST['orderby'], $orderbytypes, true ) )
+			{
+			$options['orderby'] = $_REQUEST['orderby'];
+			}
+		}
+
+	// Get the order from the url if it exists.
+	if( array_key_exists( 'order', $_REQUEST ) && $_REQUEST['order'] !== '' )
+		{
+		// Make sure we have a valid order type.
+		$order = strtolower( $_REQUEST['order'] );
+
+		if( $order === 'asc' || $order === 'desc' )
+			{
+			$options['order'] = $order;
+			}
+		}
+
+	// Get the author the url if it exists.
+	if( array_key_exists( 'author', $_REQUEST ) && intval( $_REQUEST['author'] ) > 0 )
+		{
+		// Make sure the author is an integer.
+		$options['author'] = intval( $_REQUEST['author'] );
+		}
 
 	// "all" for post_status is not a valid option in WP_Query, it really means 'default', so strip it out if it's present.
-	if( array_key_exists( 'post_status', $_REQUEST ) && $_REQUEST['post_status'] !== '' && $_REQUEST['post_status'] !== 'all' ) { $options['post_status'] = $_REQUEST['post_status']; }
+	if( array_key_exists( 	'post_status', $_REQUEST ) &&
+							$_REQUEST['post_status'] !== '' &&
+							$_REQUEST['post_status'] !== 'all'
+							&& in_array( $_REQUEST['post_status'], $avail_post_stati, true )
+						)
+		{
+		$options['post_status'] = $_REQUEST['post_status'];
+		}
 
 	return $options;
 	}
@@ -70,7 +167,7 @@ function SmartPrevNextAdminMenu()
 	if( sizeof( $options ) > 0 )
 		{
 		// We only want to add the filter to the page or posts menu items.
-		if( array_key_exists( 'post_type', $options ) && $options['post_type'] == 'page' ) 
+		if( array_key_exists( 'post_type', $options ) && $options['post_type'] == 'page' )
 			{
 			add_submenu_page( 'edit.php?post_type=page', __( 'Filtered', 'smart-prev-next' ), __( 'Filtered', 'smart-prev-next' ), 'edit_posts', "edit.php?post_type=page&$params", null, 1 );
 			}
@@ -89,9 +186,9 @@ function SmartPrevNextEditor()
 	{
 	// Get the current screen.
 	$current_screen = get_current_screen();
-	
+
 	// Check to see if we're in Gutenberg or not, and call the right code.
-	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) 
+	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() )
 		{
 		SmartPrevNextGutenbergEditor();
 		}
@@ -108,8 +205,8 @@ function SmartPrevNextRunWPQuery()
 	{
 	// Get the options from the URL, if there are none, set the default.
 	$options = SmartPrevNextBuildParams();
-	if( sizeof( $options ) === 0 ) 
-		{ 
+	if( sizeof( $options ) === 0 )
+		{
 		$options = array( 'post_status' => array( 'pending', 'draft', 'future', 'publish', 'private' ) );
 		}
 
@@ -154,7 +251,7 @@ function SmartPrevNextQueryPosts( $query )
 	foreach( $query->posts as $key => $post )
 		{
 		// If we've found it, set the prev/next post values.
-		if( $post->ID === $current_post->ID ) 
+		if( $post->ID === $current_post->ID )
 			{
 			if( array_key_exists( $key - 1, $query->posts ) ) { $previous_post = $query->posts[$key - 1]; }
 			if( array_key_exists( $key + 1, $query->posts ) ) { $next_post = $query->posts[$key + 1]; }
@@ -177,7 +274,7 @@ function SmartPrevNextGutenbergEditor()
 	{
 	// Register and enqueue our style sheet.
 	wp_register_style( 'smart_prev_next_style', plugins_url( '', __FILE__ ) . '/smart-prev-next.css' );
-	wp_enqueue_style( 'smart_prev_next_style' ); 
+	wp_enqueue_style( 'smart_prev_next_style' );
 
 	// Check to see which location we're placing the buttons.
 	//$location = 'div .interface-pinned-items';
@@ -190,8 +287,8 @@ function SmartPrevNextGutenbergEditor()
 	list( $first_post, $next_post, $previous_post, $last_post) = SmartPrevNextQueryPosts( $query );
 
 	// Finally time to create the HTML for the next/last buttons.
-	if( is_object( $next_post ) ) 
-		{ 
+	if( is_object( $next_post ) )
+		{
 		$next_post_button = '<a href="' . get_edit_post_link( $next_post->ID ) . $params . '" title="' . __( 'Next Post: ', 'smart-prev-next' ) . esc_attr( $next_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-next-post"><span class="dashicons dashicons-controls-forward"></span></a>';
 		$last_post_button = '<a href="' . get_edit_post_link( $last_post->ID ) . $params . '" title="' . __( 'Last Post: ', 'smart-prev-next' ) . esc_attr( $last_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-next-post"><span class="dashicons dashicons-controls-skipforward"></span></a>';
 		}
@@ -202,8 +299,8 @@ function SmartPrevNextGutenbergEditor()
 		}
 
 	// Finally time to create the HTML for the prev/first buttons.
-	if( is_object( $previous_post ) ) 
-		{ 
+	if( is_object( $previous_post ) )
+		{
 		$previous_post_button = '<a href="' . get_edit_post_link( $previous_post->ID ) . $params . '" title="' . __( 'Previous Post: ', 'smart-prev-next' ) . esc_attr( $previous_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-prev-post"><span class="dashicons dashicons-controls-back"></span></a>';
 		$first_post_button = '<a href="' . get_edit_post_link( $first_post->ID ) . $params . '" title="' . __( 'First Post: ', 'smart-prev-next' ) . esc_attr( $first_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-prev-post"><span class="dashicons dashicons-controls-skipback"></span></a>';
 		}
@@ -239,7 +336,7 @@ function SmartPrevNextClassicEditor()
 	{
 	// Register and enqueue our style sheet.
 	wp_register_style( 'smart_prev_next_style', plugins_url( '', __FILE__ ) . '/smart-prev-next.css' );
-	wp_enqueue_style( 'smart_prev_next_style' ); 
+	wp_enqueue_style( 'smart_prev_next_style' );
 
 	// Check to see which location we're placing the buttons.
 	//$location = 'div .interface-pinned-items';
@@ -252,8 +349,8 @@ function SmartPrevNextClassicEditor()
 	list( $first_post, $next_post, $previous_post, $last_post) = SmartPrevNextQueryPosts( $query );
 
 	// Finally time to create the HTML for the next/last buttons.
-	if( is_object( $next_post ) ) 
-		{ 
+	if( is_object( $next_post ) )
+		{
 		$next_post_button = '<a href="' . get_edit_post_link( $next_post->ID ) . $params . '" title="' . __( 'Next Post: ', 'smart-prev-next' ) . esc_attr( $next_post->post_title ) . '" class="page-title-action spn-next-post">' . __( 'Next', 'smart-prev-next' ) . '</a>';
 		$last_post_button = '<a href="' . get_edit_post_link( $last_post->ID ) . $params . '" title="' . __( 'Last Post: ', 'smart-prev-next' ) . esc_attr( $last_post->post_title ) . '" class="page-title-action spn-next-post">' . __( 'Last', 'smart-prev-next' ) . '</a>';
 		}
@@ -264,8 +361,8 @@ function SmartPrevNextClassicEditor()
 		}
 
 	// Finally time to create the HTML for the prev/first buttons.
-	if( is_object( $previous_post ) ) 
-		{ 
+	if( is_object( $previous_post ) )
+		{
 		$previous_post_button = '<a href="' . get_edit_post_link( $previous_post->ID ) . $params . '" title="' . __( 'Previous Post: ', 'smart-prev-next' ) . esc_attr( $previous_post->post_title ) . '" class="page-title-action disabled spn-prev-post">' . __( 'Prev', 'smart-prev-next' ) . '</a>';
 		$first_post_button = '<a href="' . get_edit_post_link( $first_post->ID ) . $params . '" title="' . __( 'First Post: ', 'smart-prev-next' ) . esc_attr( $first_post->post_title ) . '" class="page-title-action spn-prev-post">First</span></a>';
 		}

@@ -26,7 +26,7 @@ include_once( 'smart-prev-next-functions.php' );
 
 // Add translation action.
 add_action( 'plugins_loaded', 'SmartPrevNextLanguage' );
-	
+
 // Handle the post screens.
 add_action( 'admin_head-post.php', 'SmartPrevNextEditor' );
 
@@ -35,7 +35,7 @@ add_filter( 'post_row_actions', 'SmartPrevNextLinkRow', 999, 2 );
 add_filter( 'page_row_actions', 'SmartPrevNextLinkRow', 999, 2 );
 add_filter( 'get_edit_post_link', 'SmartPrevNextEditPostLink', 999, 3 );
 
-// Handle the admin menu.	
+// Handle the admin menu.
 add_action( 'admin_menu', 'SmartPrevNextAdminMenu' );
 
 ?>
