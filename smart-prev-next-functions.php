@@ -260,6 +260,9 @@ function SmartPrevNextQueryPosts( $query )
 	// Find the post count.
 	$post_count = sizeof( $query->posts );
 
+	// If we don't have any posts, just return an empty set.
+	if( $post_count < 1 ) { return array( null, null, null, null ); }
+
 	// Record the first/last posts objects from the query.
 	$first_post = $query->posts[0];
 	$last_post = $query->posts[$post_count-1];
