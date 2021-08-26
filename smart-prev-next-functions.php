@@ -240,6 +240,9 @@ function SmartPrevNextRunWPQuery()
 		$options['s']  = urldecode( $options['s'] );
 		}
 
+	// Make sure we get back all the results instead of just the first page.
+	$options['nopaging'] = true;
+
 	// Run the WP_Query to get the posts list.
 	$query = new WP_Query( $options );
 
