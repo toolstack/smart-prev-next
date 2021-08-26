@@ -126,14 +126,13 @@ function SmartPrevNextBuildParams()
 		}
 
 	// "all" for post_status is not a valid option in WP_Query, it really means 'default', so strip it out if it's present.
+	$poststatuslist = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
 	if( array_key_exists( 	'post_status', $_REQUEST ) &&
 							$_REQUEST['post_status'] !== '' &&
-							$_REQUEST['post_status'] !== 'all'
-							&& in_array( $_REQUEST['post_status'], $avail_post_stati, true )
+							$_REQUEST['post_status'] !== 'all' &&
+							in_array( $_REQUEST['post_status'], $poststatuslist, true )
 						)
 		{
-		$poststatuslist = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
-
 		foreach( $poststatuslist as $status )
 			{
 			if( $status === $_REQUEST['post_status'] )
