@@ -295,6 +295,22 @@ function SmartPrevNextQueryPosts( $query )
 	}
 
 /*
+ 	This function does a quick and dirty check to make sure we're not re-adding already existing parameters to a URL.
+ 	Should be rewritten to properly decode/encode individual params.
+*/
+function SmartPrevNextLinkParams( $url, $params )
+	{
+	if( strstr( $url, $params ) !== false )
+		{
+		return $url;
+		}
+	else
+		{
+		return $url . $params;
+		}
+	}
+
+/*
  	This function is called during a new page/post page when using the Gutenberg editor.
 */
 function SmartPrevNextGutenbergEditor()
@@ -316,8 +332,8 @@ function SmartPrevNextGutenbergEditor()
 	// Finally time to create the HTML for the next/last buttons.
 	if( is_object( $next_post ) )
 		{
-		$next_post_button = '<a href="' . get_edit_post_link( $next_post->ID ) . $params . '" title="' . __( 'Next Post: ', 'smart-prev-next' ) . esc_attr( $next_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-next-post"><span class="dashicons dashicons-controls-forward"></span></a>';
-		$last_post_button = '<a href="' . get_edit_post_link( $last_post->ID ) . $params . '" title="' . __( 'Last Post: ', 'smart-prev-next' ) . esc_attr( $last_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-next-post"><span class="dashicons dashicons-controls-skipforward"></span></a>';
+		$next_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $next_post->ID ), $params ) . '" title="' . __( 'Next Post: ', 'smart-prev-next' ) . esc_attr( $next_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-next-post"><span class="dashicons dashicons-controls-forward"></span></a>';
+		$last_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $last_post->ID ), $params ) . '" title="' . __( 'Last Post: ', 'smart-prev-next' ) . esc_attr( $last_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-next-post"><span class="dashicons dashicons-controls-skipforward"></span></a>';
 		}
 	else
 		{
@@ -328,8 +344,8 @@ function SmartPrevNextGutenbergEditor()
 	// Finally time to create the HTML for the prev/first buttons.
 	if( is_object( $previous_post ) )
 		{
-		$previous_post_button = '<a href="' . get_edit_post_link( $previous_post->ID ) . $params . '" title="' . __( 'Previous Post: ', 'smart-prev-next' ) . esc_attr( $previous_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-prev-post"><span class="dashicons dashicons-controls-back"></span></a>';
-		$first_post_button = '<a href="' . get_edit_post_link( $first_post->ID ) . $params . '" title="' . __( 'First Post: ', 'smart-prev-next' ) . esc_attr( $first_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-prev-post"><span class="dashicons dashicons-controls-skipback"></span></a>';
+		$previous_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $previous_post->ID ), $params ) . '" title="' . __( 'Previous Post: ', 'smart-prev-next' ) . esc_attr( $previous_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-prev-post"><span class="dashicons dashicons-controls-back"></span></a>';
+		$first_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $first_post->ID ), $params ) . '" title="' . __( 'First Post: ', 'smart-prev-next' ) . esc_attr( $first_post->post_title ) . '" class="components-button is-button is-secondary is-large spn-prev-post"><span class="dashicons dashicons-controls-skipback"></span></a>';
 		}
 	else
 		{
@@ -378,8 +394,8 @@ function SmartPrevNextClassicEditor()
 	// Finally time to create the HTML for the next/last buttons.
 	if( is_object( $next_post ) )
 		{
-		$next_post_button = '<a href="' . get_edit_post_link( $next_post->ID ) . $params . '" title="' . __( 'Next Post: ', 'smart-prev-next' ) . esc_attr( $next_post->post_title ) . '" class="page-title-action spn-next-post">' . __( 'Next', 'smart-prev-next' ) . '</a>';
-		$last_post_button = '<a href="' . get_edit_post_link( $last_post->ID ) . $params . '" title="' . __( 'Last Post: ', 'smart-prev-next' ) . esc_attr( $last_post->post_title ) . '" class="page-title-action spn-next-post">' . __( 'Last', 'smart-prev-next' ) . '</a>';
+		$next_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $next_post->ID ), $params ) . '" title="' . __( 'Next Post: ', 'smart-prev-next' ) . esc_attr( $next_post->post_title ) . '" class="page-title-action spn-next-post">' . __( 'Next', 'smart-prev-next' ) . '</a>';
+		$last_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $last_post->ID ), $params ) . '" title="' . __( 'Last Post: ', 'smart-prev-next' ) . esc_attr( $last_post->post_title ) . '" class="page-title-action spn-next-post">' . __( 'Last', 'smart-prev-next' ) . '</a>';
 		}
 	else
 		{
@@ -390,8 +406,8 @@ function SmartPrevNextClassicEditor()
 	// Finally time to create the HTML for the prev/first buttons.
 	if( is_object( $previous_post ) )
 		{
-		$previous_post_button = '<a href="' . get_edit_post_link( $previous_post->ID ) . $params . '" title="' . __( 'Previous Post: ', 'smart-prev-next' ) . esc_attr( $previous_post->post_title ) . '" class="page-title-action disabled spn-prev-post">' . __( 'Prev', 'smart-prev-next' ) . '</a>';
-		$first_post_button = '<a href="' . get_edit_post_link( $first_post->ID ) . $params . '" title="' . __( 'First Post: ', 'smart-prev-next' ) . esc_attr( $first_post->post_title ) . '" class="page-title-action spn-prev-post">First</span></a>';
+		$previous_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $previous_post->ID ), $params ) . '" title="' . __( 'Previous Post: ', 'smart-prev-next' ) . esc_attr( $previous_post->post_title ) . '" class="page-title-action disabled spn-prev-post">' . __( 'Prev', 'smart-prev-next' ) . '</a>';
+		$first_post_button = '<a href="' . SmartPrevNextLinkParams( get_edit_post_link( $first_post->ID ), $params ) . '" title="' . __( 'First Post: ', 'smart-prev-next' ) . esc_attr( $first_post->post_title ) . '" class="page-title-action spn-prev-post">First</span></a>';
 		}
 	else
 		{
