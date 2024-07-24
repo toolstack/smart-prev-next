@@ -6,7 +6,7 @@ Tags: admin editor prev next
 Requires at least: 3.5
 Tested up to: 6.6.1
 Requires PHP: 7.0
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2
 
 Smart Previous Next - Adds smart previous/next buttons to the editor, supports both Classic and Gutenberg!
@@ -41,9 +41,13 @@ No, if you have another plugin that adds columns or features to the page/post li
 
 
 == Changelog ==
-= 1.2 =
+= 1.3 =
 * Release date: July 23, 2024
 * Add support for WP 6.1.
+
+= 1.2 =
+* Release date: July 23, 2024
+* Failed deployment, see version 1.3.
 
 = 1.1 =
 * Release date: August 31, 2021.
