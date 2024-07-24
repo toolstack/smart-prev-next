@@ -4,7 +4,7 @@ Plugin URI: http://toolstack.com/smart-prev-next
 Author URI: http://toolstack.com
 Tags: admin editor prev next
 Requires at least: 3.5
-Tested up to: 6.6
+Tested up to: 6.6.1
 Requires PHP: 7.0
 Stable tag: 1.2
 License: GPLv2
