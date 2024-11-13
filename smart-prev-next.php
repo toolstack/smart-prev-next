@@ -20,7 +20,7 @@ Copyright (c) 2021-24 by Greg Ross
 This software is released under the GPL v2.0, see license.txt for details
 */
 
-define( 'SmartPrevNext', '1.4' );
+define( 'SmartPrevNext', '1.5' );
 
 include_once( 'smart-prev-next-functions.php' );
 
