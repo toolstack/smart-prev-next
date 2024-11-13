@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Smart Prev Next
-Version: 1.4
+Version: 1.5
 Plugin URI: http://toolstack.com/smart-prev-next
 Author: Greg Ross
 Author URI: http://toolstack.com
