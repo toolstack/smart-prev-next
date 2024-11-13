@@ -1,3 +1,4 @@
 .spn-prev-post, .spn-next-post, .spn-first-post, .spn-last-post {
 	margin-right: 10px !important;
+	max-width: 50px;
 }

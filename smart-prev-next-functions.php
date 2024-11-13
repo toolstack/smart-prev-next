@@ -323,7 +323,10 @@ function SmartPrevNextGutenbergEditor()
 
 	// Check to see which location we're placing the buttons.
 	// WP 6.1 changed the class for the settings box.
-	if( version_compare( $wp_version, '6.1' ) < 0 ) {
+	// WP 6.7 made more changes to the location
+	if( version_compare( $wp_version, '6.7' ) >= 0 ) {
+		$location = 'div .editor-preview-dropdown';
+	} else if( version_compare( $wp_version, '6.1' ) < 0 ) {
 		$location = 'div .edit-post-header__settings';
 	} else {
 		$location = 'div .editor-header__settings';
