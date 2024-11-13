@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Smart Prev Next
-Version: 1.3
+Version: 1.4
 Plugin URI: http://toolstack.com/smart-prev-next
 Author: Greg Ross
 Author URI: http://toolstack.com
@@ -20,7 +20,7 @@ Copyright (c) 2021-24 by Greg Ross
 This software is released under the GPL v2.0, see license.txt for details
 */
 
-define( 'SmartPrevNext', '1.3' );
+define( 'SmartPrevNext', '1.4' );
 
 include_once( 'smart-prev-next-functions.php' );
 

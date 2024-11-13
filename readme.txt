@@ -4,9 +4,9 @@ Plugin URI: http://toolstack.com/smart-prev-next
 Author URI: http://toolstack.com
 Tags: admin editor prev next
 Requires at least: 3.5
-Tested up to: 6.6.1
+Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2
 
 Smart Previous Next - Adds smart previous/next buttons to the editor, supports both Classic and Gutenberg!
@@ -41,6 +41,10 @@ No, if you have another plugin that adds columns or features to the page/post li
 
 
 == Changelog ==
+= 1.4 =
+* Release date: November 12, 2024
+* Add support for WP 6.7.
+
 = 1.3 =
 * Release date: July 23, 2024
 * Add support for WP 6.1.
