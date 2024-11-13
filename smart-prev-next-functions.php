@@ -323,10 +323,7 @@ function SmartPrevNextGutenbergEditor()
 
 	// Check to see which location we're placing the buttons.
 	// WP 6.1 changed the class for the settings box.
-	// WP 6.7 made more changes to the location
-	if( version_compare( $wp_version, '6.7' ) >= 0 ) {
-		$location = 'div .editor-preview-dropdown';
-	} else if( version_compare( $wp_version, '6.1' ) < 0 ) {
+	if( version_compare( $wp_version, '6.1' ) < 0 ) {
 		$location = 'div .edit-post-header__settings';
 	} else {
 		$location = 'div .editor-header__settings';
@@ -368,7 +365,7 @@ function SmartPrevNextGutenbergEditor()
     		var pinned_items = jQuery( '<?php echo $location; ?>' );
 
     		if( typeof pinned_items === 'object' ) {
-				pinned_items.before( '<?php echo $first_post_button . $previous_post_button . $next_post_button . $last_post_button; ?>' );
+				pinned_items.prepend( '<?php echo $first_post_button . $previous_post_button . $next_post_button . $last_post_button; ?>' );
 			} else {
 				setTimeout( 'SmartPrevNextAddPrevNext()', 250 );
 			}
