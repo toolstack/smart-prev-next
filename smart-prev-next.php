@@ -24,9 +24,6 @@ define( 'SmartPrevNext', '1.5' );
 
 include_once( 'smart-prev-next-functions.php' );
 
-// Add translation action.
-add_action( 'plugins_loaded', 'SmartPrevNextLanguage' );
-
 // Handle the post screens.
 add_action( 'admin_head-post.php', 'SmartPrevNextEditor' );
 
