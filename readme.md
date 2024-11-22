@@ -6,7 +6,7 @@
 **Requires at least:** 3.5  
 **Tested up to:** 6.7  
 **Requires PHP:** 7.0  
-**Stable tag:** 1.5  
+**Stable tag:** 1.6  
 **License:** GPLv2  
 
 Smart Previous Next - Adds smart previous/next buttons to the editor, supports both Classic and Gutenberg!
@@ -45,6 +45,10 @@ No, if you have another plugin that adds columns or features to the page/post li
 
 
 ## Changelog ##
+### 1.6 ###
+* Release date: November 22, 2024
+* Remove warning about translation loading too early.
+
 ### 1.5 ###
 * Release date: November 12, 2024
 * More fixes for WP 6.7.
